@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
-const ObjectId = require('mongodb').ObjectId
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const fileUpload = require('express-fileupload');
 
@@ -24,6 +24,8 @@ async function run() {
         const database = client.db('smartITfirm');
         const servicesCollection = database.collection('services');
         const reviewsCollection = database.collection('reviews');
+        const projectsCollection = database.collection('projects');
+        const teamCollection = database.collection('team');
         const usersCollection = database.collection('users');
         const ordersCollection = database.collection('orders');
 
@@ -48,6 +50,48 @@ async function run() {
                 image: imgBuffer
             }
             const result = await servicesCollection.insertOne(service);
+            res.json(result);
+        });
+
+        // GET Project API
+        app.get('/projects', async (req, res) => {
+            const cursor = projectsCollection.find({});
+            const services = await cursor.toArray();
+            res.send(services);
+        })
+
+        // POST Project API
+        app.post('/projects', async (req, res) => {
+            const title = req.body.title;
+            const img = req.files.image;
+            const imgData = img.data;
+            const encodedImg = imgData.toString('base64');
+            const imgBuffer = Buffer.from(encodedImg, 'base64');
+            const service = {
+                title,
+                image: imgBuffer
+            }
+            const result = await projectsCollection.insertOne(service);
+            res.json(result);
+        });
+
+        // GET Team API
+        app.get('/team', async (req, res) => {
+            const cursor = teamCollection.find({});
+            const services = await cursor.toArray();
+            res.send(services);
+        })
+
+        // POST Team API
+        app.post('/team', async (req, res) => {
+            const img = req.files.image;
+            const imgData = img.data;
+            const encodedImg = imgData.toString('base64');
+            const imgBuffer = Buffer.from(encodedImg, 'base64');
+            const service = {
+                image: imgBuffer
+            }
+            const result = await teamCollection.insertOne(service);
             res.json(result);
         });
 
