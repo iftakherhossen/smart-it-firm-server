@@ -53,6 +53,23 @@ async function run() {
             res.json(result);
         });
 
+        // GET Single Review API 
+        app.get('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const service = await servicesCollection.findOne(query);
+            res.json(service);
+        })
+
+        // PUT Hidden Info to a Single Review 
+        app.put('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const updateStatus = { $set: { available: false } };
+            const result = await servicesCollection.updateOne(filter, updateStatus);
+            res.json(result);
+        })
+
         // GET Project API
         app.get('/projects', async (req, res) => {
             const cursor = projectsCollection.find({});
@@ -95,11 +112,36 @@ async function run() {
             res.json(result);
         });
 
+        // DELETE Single Team API
+        app.delete('/team/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await teamCollection.deleteOne(query);
+            res.json(result);
+        })
+
         // GET Reviews API
         app.get('/reviews', async (req, res) => {
             const cursor = reviewsCollection.find({});
             const result = await cursor.toArray();
             res.send(result)
+        })
+
+        // GET Single Review API 
+        app.get('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const review = await reviewsCollection.findOne(query);
+            res.json(review);
+        })
+
+        // PUT Hidden Info to a Single Review 
+        app.put('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const updateStatus = { $set: { hidden: true } };
+            const result = await reviewsCollection.updateOne(filter, updateStatus);
+            res.json(result);
         })
 
         // POST Reviews API
@@ -148,7 +190,6 @@ async function run() {
         // PUT Admin API
         app.put('/users/admin', async (req, res) => {
             const user = req.body;
-            console.log(user);
             const filter = { email: user.email };
             const updateDoc = { $set: { role: 'admin' } };
             const result = await usersCollection.updateOne(filter, updateDoc);
@@ -189,13 +230,8 @@ async function run() {
         // PUT Status Info to a Single Appointment 
         app.put('/orders/:id', async (req, res) => {
             const id = req.params.id;
-            const status = req.body;
             const filter = { _id: ObjectId(id) };
-            const updateStatus = {
-                $set: {
-                    status: status
-                }
-            };
+            const updateStatus = { $set: { status: true } };
             const result = await ordersCollection.updateOne(filter, updateStatus);
             res.json(result);
         })
