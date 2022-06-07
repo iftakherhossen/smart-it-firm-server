@@ -236,6 +236,15 @@ async function run() {
             res.json(result);
         })
 
+        // PUT Payment Status Info to a Single Appointment 
+        app.put('/orders/paymentStatus/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const updateStatus = { $set: { paymentStatus: true } };
+            const result = await ordersCollection.updateOne(filter, updateStatus);
+            res.json(result);
+        })
+
         // DELETE Single Order API
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
