@@ -168,7 +168,7 @@ async function run() {
             res.send(result);
         })
 
-        // GET Single Order API 
+        // GET Single User API 
         app.get('/users/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
