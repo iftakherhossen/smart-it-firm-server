@@ -158,6 +158,14 @@ async function run() {
             res.send(result);
         })
 
+        // GET Single Order API 
+        app.get('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const user = await usersCollection.findOne(query);
+            res.json(user);
+        })
+
         // POST Users API
         app.post('/users', async (req, res) => {
             const user = req.body;
@@ -193,6 +201,16 @@ async function run() {
             const filter = { email: user.email };
             const updateDoc = { $set: { role: 'admin' } };
             const result = await usersCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        })
+
+        // PUT Designation to a single User API 
+        app.put('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const text = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updateStatus = { $set: { designation: text } };
+            const result = await reviewsCollection.updateOne(filter, updateStatus);
             res.json(result);
         })
 
