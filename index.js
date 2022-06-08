@@ -15,15 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 
-app.use(express.static(__dirname));
-app.use('/proxy', proxy({
-    pathRewrite: {
-       '^/proxy/': '/'
-    },
-    target: 'https://server.com',
-    secure: false
-}));
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wk6ov.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -38,6 +29,12 @@ async function run() {
         const teamCollection = database.collection('team');
         const usersCollection = database.collection('users');
         const ordersCollection = database.collection('orders');
+
+        // For preventing CORS error
+        app.get('/cors', (req, res) => {
+            res.set('Access-Control-Allow-Origin', 'https://smart-it-firm.herokuapp.com/');
+            res.send({ "msg": "This has CORS enabled 🎈" })
+        })
 
         // GET Services API
         app.get('/services', async (req, res) => {
