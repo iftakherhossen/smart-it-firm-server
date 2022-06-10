@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors({
-    origin: 'https://smart-it-firm.herokuapp.com/',
+    origin: 'https://smart-it-firm.web.app/',
 }));
 app.use(express.json());
 app.use(fileUpload());
