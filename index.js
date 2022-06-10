@@ -4,20 +4,15 @@ const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const fileUpload = require('express-fileupload');
-const proxy = require('http-proxy-middleware');
 
 const app = express();
 
 const port = process.env.PORT || 5000;
 
-const corsOptions ={
-    origin:'*', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
-}
-
 // middleware
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'https://smart-it-firm.herokuapp.com/',
+}));
 app.use(express.json());
 app.use(fileUpload());
 
@@ -36,11 +31,6 @@ async function run() {
         const usersCollection = database.collection('users');
         const ordersCollection = database.collection('orders');
 
-        // For preventing CORS error
-        app.get('/cors', (req, res) => {
-            res.set('Access-Control-Allow-Origin', 'https://smart-it-firm.herokuapp.com/');
-            res.send({ "msg": "This has CORS enabled 🎈" })
-        })
 
         // GET Services API
         app.get('/services', async (req, res) => {
