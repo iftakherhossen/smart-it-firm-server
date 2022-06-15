@@ -210,14 +210,14 @@ async function run() {
         })
 
         // PUT Designation to a single User API 
-        app.put('/users/:id', async (req, res) => {
-            const id = req.params.id;
-            const text = req.body;
-            const filter = { _id: ObjectId(id) };
-            const updateStatus = { $set: { designation: text } };
-            const result = await reviewsCollection.updateOne(filter, updateStatus);
-            res.json(result);
-        })
+        // app.put('/users/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const text = req.body;
+        //     const filter = { _id: ObjectId(id) };
+        //     const updateStatus = { $set: { designation: text } };
+        //     const result = await reviewsCollection.updateOne(filter, updateStatus);
+        //     res.json(result);
+        // })
 
         // GET Orders API
         app.get('/orders', async (req, res) => {
@@ -243,12 +243,12 @@ async function run() {
         })
 
         // GET Single Order API 
-        app.get('/orders/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const order = await ordersCollection.findOne(query);
-            res.json(order);
-        })
+        // app.get('/orders/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { _id: ObjectId(id) };
+        //     const order = await ordersCollection.findOne(query);
+        //     res.json(order);
+        // })
 
         // PUT Status Info to a Single Appointment 
         app.put('/orders/:id', async (req, res) => {
