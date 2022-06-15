@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 // middleware
 app.use(cors());
 app.use((req, res, next) => {
-    res.header({ "Access-Control-Allow-Origin": "http://localhost:3000/" });
+    res.header({ "Access-Control-Allow-Origin": "https://smart-it-firm-server.herokuapp.com/" });
     next();
 }) 
 app.use(express.json());
